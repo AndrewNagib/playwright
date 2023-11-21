@@ -18,7 +18,7 @@ test('Batman', async ({ page }) => {
   const browser = await chromium.launch({ executablePath: chromePath });
   page = await browser.newPage();
   
-  openUrl(page, 'https://funny-movie-searcher.web.app');
+  await page.goto('https://funny-movie-searcher.web.app');
 
   await expect(page.getByPlaceholder(locatorsInstance.inputFieldMovieSearch)).toBeVisible();
   await page.getByPlaceholder(locatorsInstance.inputFieldMovieSearch).fill('batman');
@@ -34,7 +34,7 @@ test('Movie_creation', async ({ page }) =>
   
   let title_name : string = "The best movie";
 
-  openUrl(page, 'https://funny-movie-searcher.web.app');
+  await page.goto('https://funny-movie-searcher.web.app');
 
   await page.click(locatorsInstance.btnCreateMovie);
   await page.locator(locatorsInstance.inputMovieTitle).fill(title_name);
@@ -63,9 +63,9 @@ test('Movie_delete', async ({ page }) =>
   } else {
     console.error(`Element with selector ${elementSelector} did not find`);
   }
-  await page.locator(`//*[@class="movies__list-title" and text()='${movie_name}']/following-sibling::*/a[@title="Delete"]/*`).click();
-  await expect(page.locator(`//*[@class="modal__content" and contains(text(), 'Are you sure you want to delete ${movie_name}?')]`)).toBeVisible();
-  await page.locator(`//*[@class="mat-button-wrapper" and text()=' Confirm ']`).click();
+  await page.locator(locatorsInstance.btnDeleteBlockWithMovie(movie_name)).click();
+  await expect(page.locator(locatorsInstance.blockAreYouSureDeleteMovie(movie_name))).toBeVisible();
+  await page.locator(locatorsInstance.btnConfirmDeleteButton).click();
   await page.waitForSelector(elementSelector, { state: 'detached' }).then(() => {
     console.log(`Element with selector ${elementSelector} deleted from DOM`);
   }).catch(() => {
