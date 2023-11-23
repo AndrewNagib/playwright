@@ -10,7 +10,7 @@ class Locators
 
     public btnOpenCalendar : string = '//*[@class="mat-datepicker-toggle-default-icon ng-star-inserted"]';
 
-    public inputFieldRuntimeMinute : string = '//*[@type="number"]';
+    public inputFieldRuntimeMinute : string = '//*[@id="mat-input-2"]';
 
     public inputFieldGenre : string = '//*[@formcontrolname="Genre"]';
 
@@ -19,6 +19,11 @@ class Locators
     public btnSubmit : string = '//*[@type="submit"]/span';
 
     public btnConfirmDeleteButton : string = `//*[@class="mat-button-wrapper" and text()=' Confirm ']`;
+
+    public blockWithMovie (movie_name : String)
+    {
+        return `//*[@class="movies__list-title" and text()='${movie_name}']`;
+    }
 
     public btnChooseYear (movie_date : String)
     {

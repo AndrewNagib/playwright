@@ -1,76 +1,65 @@
 import { test, expect, chromium } from '@playwright/test';
 import Locators from './locators';
+import Helpers from './helpers';
+import PageObjects from './pageObjects';
 
 const locatorsInstance = new Locators();
+const helpersInstance = new Helpers();
+const pageObjects = new PageObjects();
 
-function capitalizeEveryWord(inputString: string): string {
-  return inputString.replace(/\b\w/g, (match) => match.toUpperCase());
-}
 
-const chromePath = 'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe';
-
-async function openUrl(page, url : string) {
-  await page.goto(url);
-}
 
 
 test('Batman', async ({ page }) => {
-  const browser = await chromium.launch({ executablePath: chromePath });
+  const browser = await chromium.launch({});
   page = await browser.newPage();
-  
-  await page.goto('https://funny-movie-searcher.web.app');
+  let full_movie_name = 'Batman v Superman: Dawn of Justice';
 
-  await expect(page.getByPlaceholder(locatorsInstance.inputFieldMovieSearch)).toBeVisible();
-  await page.getByPlaceholder(locatorsInstance.inputFieldMovieSearch).fill('batman');
-  await page.waitForSelector(locatorsInstance.blockForSelectFromDropDown('Batman v Superman: Dawn of Justice'));
-  await page.click(locatorsInstance.blockForSelectFromDropDown('Batman v Superman: Dawn of Justice'));
-  await expect(page.locator(locatorsInstance.blockSelectedFilm)).toBeVisible();
+  await helpersInstance.openUrl(page, 'https://funny-movie-searcher.web.app');
+
+  await pageObjects.waitInputFieldMovieSearchPresent(page);
+  await pageObjects.typeMovieName(page, 'batman');
+  await pageObjects.waitMovieNameInDropDownPresent(page , full_movie_name);
+  await pageObjects.clickMovieNameInDropDown(page, full_movie_name);
+  await pageObjects.waitBlockSelectedFilmPresent(page);
 });
 
 test('Movie_creation', async ({ page }) =>
 {
-  const browser = await chromium.launch({ executablePath: chromePath });
+  const browser = await chromium.launch({});
   page = await browser.newPage();
   
   let title_name : string = "The best movie";
 
-  await page.goto('https://funny-movie-searcher.web.app');
+  await helpersInstance.openUrl(page, 'https://funny-movie-searcher.web.app');
 
-  await page.click(locatorsInstance.btnCreateMovie);
-  await page.locator(locatorsInstance.inputMovieTitle).fill(title_name);
-  await page.click(locatorsInstance.btnOpenCalendar);
-  await page.click(locatorsInstance.btnChooseYear('2022'));
-  await page.locator(locatorsInstance.inputFieldRuntimeMinute).fill('50');
-  await page.locator(locatorsInstance.inputFieldGenre).fill('sci-fi');
-  await page.locator(locatorsInstance.inputFieldDirector).fill('Andriiko');
-  await page.click(locatorsInstance.btnSubmit);
-  await expect(page.locator(locatorsInstance.blockCreatedMovie(capitalizeEveryWord(title_name)))).toBeVisible();
+  await pageObjects.clickButtonCreateMovie(page);
+  await pageObjects.typeTitle(page, title_name);
+  await pageObjects.clickOpenCalendarButton(page);
+  await pageObjects.chooseTheYear(page, '2022');
+  await new Promise(resolve => setTimeout(resolve, 1000));
+  await pageObjects.setFilmDuration(page, '50');
+  await pageObjects.setFilmGenre(page, 'sci-fi');
+  await pageObjects.setFilmDirector(page, 'Andriiko');
+  await pageObjects.clickSubmitCretedFilmButton(page);
+  await pageObjects.waitBlockCreatedMoviePresent(page, title_name);
 }
 );
 
 
 test('Movie_delete', async ({ page }) =>
 {
-  const browser = await chromium.launch({ executablePath: chromePath });
+  const browser = await chromium.launch({});
   let movie_name : string = "Futurama The Making Of It";
   page = await browser.newPage();
   
-  await page.goto('https://funny-movie-searcher.web.app');
-  const elementSelector = `//*[@class="movies__list-title" and text()='${movie_name}']`;
-  const elementHandle = await page.$(elementSelector);
-  if (elementHandle) {
-      await elementHandle.scrollIntoViewIfNeeded();
-  } else {
-    console.error(`Element with selector ${elementSelector} did not find`);
+  await helpersInstance.openUrl(page, 'https://funny-movie-searcher.web.app');
+  const elementSelector = locatorsInstance.blockWithMovie(movie_name);
+  helpersInstance.swipeToElement(page, elementSelector);
+  await pageObjects.buttonDeleteBlockWithMovie(page , movie_name);
+  await pageObjects.blockAreYouSureDeleteMovie(page, movie_name);
+  await pageObjects.clickConfirmDeleteButton(page);
+  await pageObjects.waitBlockDeletedMovieDisappear(page, elementSelector);
   }
-  await page.locator(locatorsInstance.btnDeleteBlockWithMovie(movie_name)).click();
-  await expect(page.locator(locatorsInstance.blockAreYouSureDeleteMovie(movie_name))).toBeVisible();
-  await page.locator(locatorsInstance.btnConfirmDeleteButton).click();
-  await page.waitForSelector(elementSelector, { state: 'detached' }).then(() => {
-    console.log(`Element with selector ${elementSelector} deleted from DOM`);
-  }).catch(() => {
-    console.log(`Element with selector ${elementSelector} not found`);
-  });
-}
 );
 
