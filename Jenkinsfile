@@ -2,6 +2,7 @@ pipeline {
   agent { 
     docker { 
       image 'mcr.microsoft.com/playwright:v1.40.0-jammy'
+      args '-v D:/Jenkins/.jenkins/workspace/Playwright_build/:/usr/src/app'
     } 
   }
   stages {
