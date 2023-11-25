@@ -20,6 +20,7 @@ pipeline {
     stage('help') {
       steps {
         sh 'npx playwright test --help'
+        sh 'node -v'
       }
     }
     stage('test') {
