@@ -9,6 +9,7 @@ pipeline {
       steps {
         sh '''
           npm install
+          sudo chown -R 129:137 "/.npm"
           npm i -D @playwright/test
           npx playwright install
         '''
