@@ -4,12 +4,14 @@ pipeline {
       image 'mcr.microsoft.com/playwright:v1.40.0-jammy'
     } 
   }
+  environment {
+        npm_config_cache = 'npm-cache'
+    }
   stages {
     stage('install playwright') {
       steps {
         sh '''
           npm install
-          sudo chown -R 129:137 "/.npm"
           npm i -D @playwright/test
           npx playwright install
         '''
