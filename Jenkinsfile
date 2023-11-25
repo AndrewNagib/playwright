@@ -4,9 +4,6 @@ pipeline {
       image 'mcr.microsoft.com/playwright:v1.40.0-jammy'
     } 
   }
-  environment {
-        npm_config_cache = 'npm-cache'
-    }
   stages {
     stage('install playwright') {
       steps {
@@ -28,12 +25,6 @@ pipeline {
           npx playwright test --list
           npx playwright test
         '''
-      }
-      post {
-        success {
-          archiveArtifacts(artifacts: 'homepage-*.png', followSymlinks: false)
-          sh 'rm -rf *.png'
-        }
       }
     }
   }
