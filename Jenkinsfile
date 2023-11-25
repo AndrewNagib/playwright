@@ -12,16 +12,15 @@ pipeline {
       steps {
         sh '''
           npm install
-          npm i -D @playwright/test
-          npx playwright install
+          npm ci
+          npx playwright test
         '''
       }
     }
     stage('help') {
       steps {
         sh 'npx playwright test --help'
-        sh 'node -v'
-      }
+        }
     }
     stage('test') {
       steps {
