@@ -23,43 +23,43 @@ test('Batman', async ({ page }) => {
   await pageObjects.waitBlockSelectedFilmPresent(page);
  });
 
-// test('Movie_creation', async ({ page }) =>
-// {
-//   const browser = await chromium.launch({});
-//   page = await browser.newPage();
-//   const movieData = dataProviders.createMovieDataProvider();
+test('Movie_creation', async ({ page }) =>
+{
+  const browser = await chromium.launch({});
+  page = await browser.newPage();
+  const movieData = dataProviders.createMovieDataProvider();
   
-//   let title_name : string = "The best movie";
+  let title_name : string = "The best movie";
 
-//   await helpersInstance.openUrl(page, dataProviders.getSiteUrl());
+  await helpersInstance.openUrl(page, dataProviders.getSiteUrl());
 
-//   await pageObjects.clickButtonCreateMovie(page);
-//   await pageObjects.typeTitle(page, title_name);
-//   await pageObjects.clickOpenCalendarButton(page);
-//   await pageObjects.chooseTheYear(page, movieData.get('year')!);
-//   await new Promise(resolve => setTimeout(resolve, 1000));
-//   await pageObjects.setFilmDuration(page, movieData.get('duration')!);
-//   await pageObjects.setFilmGenre(page, movieData.get('genre')!);
-//   await pageObjects.setFilmDirector(page, movieData.get('director')!);
-//   await pageObjects.clickSubmitCretedFilmButton(page);
-//   await pageObjects.waitBlockCreatedMoviePresent(page, title_name);
-// }
-// );
+  await pageObjects.clickButtonCreateMovie(page);
+  await pageObjects.typeTitle(page, title_name);
+  await pageObjects.clickOpenCalendarButton(page);
+  await pageObjects.chooseTheYear(page, movieData.get('year')!);
+  await new Promise(resolve => setTimeout(resolve, 1000));
+  await pageObjects.setFilmDuration(page, movieData.get('duration')!);
+  await pageObjects.setFilmGenre(page, movieData.get('genre')!);
+  await pageObjects.setFilmDirector(page, movieData.get('director')!);
+  await pageObjects.clickSubmitCretedFilmButton(page);
+  await pageObjects.waitBlockCreatedMoviePresent(page, title_name);
+}
+);
 
 
-// test('Movie_delete', async ({ page }) =>
-// {
-//   const browser = await chromium.launch({});
-//   let movie_name : string = "Futurama The Making Of It";
-//   page = await browser.newPage();
+test('Movie_delete', async ({ page }) =>
+{
+  const browser = await chromium.launch({});
+  let movie_name : string = "Futurama The Making Of It";
+  page = await browser.newPage();
   
-//   await helpersInstance.openUrl(page, dataProviders.getSiteUrl());
-//   const elementSelector = locatorsInstance.blockWithMovie(movie_name);
-//   helpersInstance.swipeToElement(page, elementSelector);
-//   await pageObjects.buttonDeleteBlockWithMovie(page , movie_name);
-//   await pageObjects.blockAreYouSureDeleteMovie(page, movie_name);
-//   await pageObjects.clickConfirmDeleteButton(page);
-//   await pageObjects.waitBlockDeletedMovieDisappear(page, elementSelector);
-//   }
-// );
+  await helpersInstance.openUrl(page, dataProviders.getSiteUrl());
+  const elementSelector = locatorsInstance.blockWithMovie(movie_name);
+  helpersInstance.swipeToElement(page, elementSelector);
+  await pageObjects.buttonDeleteBlockWithMovie(page , movie_name);
+  await pageObjects.blockAreYouSureDeleteMovie(page, movie_name);
+  await pageObjects.clickConfirmDeleteButton(page);
+  await pageObjects.waitBlockDeletedMovieDisappear(page, elementSelector);
+  }
+);
 
