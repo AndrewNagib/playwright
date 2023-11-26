@@ -1,34 +1,29 @@
 pipeline {
-  agent { 
-    docker { 
-      image 'mcr.microsoft.com/playwright:v1.38.0-focal'
-    } 
-  }
-  environment {
-        npm_config_cache = 'npm-cache'
-    }
-  stages {
-    stage('install playwright') {
-      steps {
-        sh '''
-          npm install
-          npm i -D @playwright/test
-          npx playwright install
-        '''
-      }
-    }
-    stage('help') {
-      steps {
-        sh 'npx playwright test --help'
+    agent {
+        docker {
+            image 'mcr.microsoft.com/playwright:v1.38.0-focal'
+            args '-u root'  // Запуск контейнера с правами root (если необходимо)
         }
     }
-    stage('test') {
-      steps {
-        sh '''
-          npx playwright test --list
-          npx playwright test
-        '''
-      }
+
+    stages {
+        stage('Install Dependencies') {
+            steps {
+                script {
+                    // Здесь вы можете выполнить установку зависимостей, если это необходимо для ваших тестов
+                    // Например, установка Node.js пакетов:
+                    sh 'npm install'
+                }
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                script {
+                    // Здесь запускаются ваши тесты, например, с использованием npm или npx:
+                    sh 'npx playwright test'
+                }
+            }
+        }
     }
-  }
 }
