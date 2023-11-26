@@ -9,11 +9,11 @@ pipeline {
     stages {
         stage('Install Dependencies') {
             steps {
-                script {
-                    // Здесь вы можете выполнить установку зависимостей, если это необходимо для ваших тестов
-                    // Например, установка Node.js пакетов:
-                    sh 'npm install'
-                }
+         sh '''
+          npm install
+          npm i -D @playwright/test
+          npx playwright install
+        '''
             }
         }
 
