@@ -27,6 +27,7 @@ pipeline {
         sh '''
           npx playwright test --list
           npx playwright test
+          echo 'Tests completed successfully'
         '''
       }
     }
