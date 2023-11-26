@@ -12,17 +12,16 @@ const dataProviders = new DataProviders();
 
 
 test('Batman', async ({ page }) => {
-  // const browser = await chromium.launch({});
-  // page = await browser.newPage();
-  // const movieData = dataProviders.searchMovieDataProvider();
-  // await helpersInstance.openUrl(page, dataProviders.getSiteUrl());
-  // await pageObjects.waitInputFieldMovieSearchPresent(page);
-  // await pageObjects.typeMovieName(page, movieData.get('shortMovieName')!);
-  // await pageObjects.waitMovieNameInDropDownPresent(page , movieData.get('fullMovieName')!);
-  // await pageObjects.clickMovieNameInDropDown(page, movieData.get('fullMovieName')!);
-  // await pageObjects.waitBlockSelectedFilmPresent(page);
-  console.log('Hello');
-});
+  const browser = await chromium.launch({});
+  page = await browser.newPage();
+  const movieData = dataProviders.searchMovieDataProvider();
+  await helpersInstance.openUrl(page, dataProviders.getSiteUrl());
+  await pageObjects.waitInputFieldMovieSearchPresent(page);
+  await pageObjects.typeMovieName(page, movieData.get('shortMovieName')!);
+  await pageObjects.waitMovieNameInDropDownPresent(page , movieData.get('fullMovieName')!);
+  await pageObjects.clickMovieNameInDropDown(page, movieData.get('fullMovieName')!);
+  await pageObjects.waitBlockSelectedFilmPresent(page);
+ });
 
 // test('Movie_creation', async ({ page }) =>
 // {
