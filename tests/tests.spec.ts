@@ -26,6 +26,7 @@ test('Batman', async ({ page }) => {
   await pageObjects.waitMovieNameInDropDownPresent(page , movieData.get('fullMovieName')!);
   await pageObjects.clickMovieNameInDropDown(page, movieData.get('fullMovieName')!);
   await pageObjects.waitBlockSelectedFilmPresent(page);
+  console.log("5");
 });
 
 // test('Movie_creation', async ({ page }) =>
