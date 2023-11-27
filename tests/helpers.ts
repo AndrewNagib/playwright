@@ -2,24 +2,23 @@ import { Page } from "@playwright/test";
 import { expect } from '@playwright/test';
 
 
-
-class Helpers
+export class Helpers
 {
-    public async clickTheElement(page : Page, locator : string)
+    public static async clickTheElement(page : Page, locator : string)
     {
-     await page.click(locator);
+     await page.click(locator).then(() => {console.log(`Click the element with selector ${locator}`)});
     }
 
-    public async  type(page: Page, locator: string, inputData: string) {
+    public static async  type(page: Page, locator: string, inputData: string) {
       await  page.locator(locator).fill(inputData);
     }
 
-    public async waitElementToBeVisible(page : Page, locator : string)
+    public static async waitElementToBeVisible(page : Page, locator : string)
     {
        await expect(page.locator(locator)).toBeVisible();
     }
 
-   public async waitElementDisappear (page : Page, elementSelector : string)
+   public static async waitElementDisappear (page : Page, elementSelector : string)
    {
     await page.waitForSelector(elementSelector, { state: 'detached' }).then(() => {
         console.log(`Element with selector ${elementSelector} deleted from DOM`);
@@ -28,15 +27,15 @@ class Helpers
       });
     }
     
-    public async openUrl(page, url : string) {
+    public static async openUrl(page, url : string) {
         await page.goto(url);
       }
 
-    public capitalizeEveryWord(inputString: string): string {
+    public static capitalizeEveryWord(inputString: string): string {
         return inputString.replace(/\b\w/g, (match) => match.toUpperCase());
       }
 
-      public async swipeToElement(page : Page, elementSelector : string)
+    public static async swipeToElement(page : Page, elementSelector : string)
       {
         const elementHandle = await page.$(elementSelector);
         if (elementHandle) {
@@ -46,5 +45,3 @@ class Helpers
         }
       }
 }
-
-export default Helpers;
